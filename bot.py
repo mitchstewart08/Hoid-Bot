@@ -27,7 +27,7 @@ async def on_message(message):
 
     if message.content.startswith("!covid"):
         async with aiohttp.ClientSession() as session:
-            async with session.get('https://jsonplaceholder.typicode.com/posts') as r:
+            async with session.get('http://covidtracking.com/api/us') as r:
                 if r.status == 200:
                     js = await r.json()
                     print(f'{js}')
