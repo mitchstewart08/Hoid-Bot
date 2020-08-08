@@ -13,7 +13,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
 There are a number of utility commands being showcased here.'''
-bot = commands.Bot(command_prefix='?', description=description)
+bot = commands.Bot(command_prefix='!', description=description)
 
 
 @bot.event
@@ -28,6 +28,26 @@ async def on_ready():
 async def add(ctx, left: int, right: int):
     """Adds two numbers together."""
     await ctx.send(left + right)
+
+
+@bot.command()
+async def covid(ctx):
+    async with aiohttp.ClientSession() as session:
+        async with session.get('http://covidtracking.com/api/us') as r:
+            if r.status == 200:
+                js = await r.json()
+                print(f'{js}')
+                await displayEmbedded(ctx)
+            else:
+                await message.channel.send("Error")
+
+
+async def displayEmbedded(ctx, obj={}):
+    embed = discord.Embed(title="Your title here",
+                          description="Your desc here")  # ,color=Hex code
+    embed.add_field(
+        name="Name", value="you can make as much as fields you like to")
+    await ctx.send(embed=embed)
 
 
 @bot.command()
