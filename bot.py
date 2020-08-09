@@ -35,19 +35,15 @@ async def covid(ctx):
     async with aiohttp.ClientSession() as session:
         async with session.get('http://covidtracking.com/api/us') as r:
             if r.status == 200:
-                js = await r.json()
-                print(f'{js}')
-                await displayEmbedded(ctx)
+                results = await r.json()
+                obj = {"title": "Covid Stats", "description": "Poop",
+                       "name": "this is sample additional property"}
+                desc = "**Positive Cases**:" + str(results[0]["positive"])
+                embed = discord.Embed(title="Covid stats for America" or None,
+                                      description=desc or None)
+                await ctx.send(embed=embed)
             else:
                 await message.channel.send("Error")
-
-
-async def displayEmbedded(ctx, obj={}):
-    embed = discord.Embed(title="Your title here",
-                          description="Your desc here")  # ,color=Hex code
-    embed.add_field(
-        name="Name", value="you can make as much as fields you like to")
-    await ctx.send(embed=embed)
 
 
 @bot.command()
