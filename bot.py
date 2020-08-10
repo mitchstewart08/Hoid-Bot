@@ -36,9 +36,8 @@ async def covid(ctx):
         async with session.get('http://covidtracking.com/api/us') as r:
             if r.status == 200:
                 results = await r.json()
-                obj = {"title": "Covid Stats", "description": "Poop",
-                       "name": "this is sample additional property"}
-                desc = "**Positive Cases**:" + str(results[0]["positive"])
+                desc = "**Positive Cases**:" + str(results[0]["positive"]) + '\n' + "**Negative Cases**:" + str(results[0]["negative"]) + '\n' + "**Pending Cases**:" + str(results[0]["pending"]) + '\n\n' + "**Hospitalized Currently Cases**:" + str(
+                    results[0]["hospitalizedCurrently"]) + '\n' + "**Hospitalized Cases Cumlative**:" + str(results[0]["hospitalizedCumulative"]) + '\n' + "**ICU Currently **:" + str(results[0]["inIcuCurrently"]) + '\n' + "**ICU Cumulative Total**:" + str(results[0]["inIcuCumulative"]) + '\n'
                 embed = discord.Embed(title="Covid stats for America" or None,
                                       description=desc or None)
                 await ctx.send(embed=embed)
@@ -46,7 +45,7 @@ async def covid(ctx):
                 await message.channel.send("Error")
 
 
-@bot.command()
+@ bot.command()
 async def roll(ctx, dice: str):
     """Rolls a dice in NdN format."""
     try:
@@ -59,26 +58,26 @@ async def roll(ctx, dice: str):
     await ctx.send(result)
 
 
-@bot.command(description='For when you wanna settle the score some other way')
+@ bot.command(description='For when you wanna settle the score some other way')
 async def choose(ctx, *choices: str):
     """Chooses between multiple choices."""
     await ctx.send(random.choice(choices))
 
 
-@bot.command()
+@ bot.command()
 async def repeat(ctx, times: int, content='repeating...'):
     """Repeats a message multiple times."""
     for i in range(times):
         await ctx.send(content)
 
 
-@bot.command()
+@ bot.command()
 async def joined(ctx, member: discord.Member):
     """Says when a member joined."""
     await ctx.send('{0.name} joined in {0.joined_at}'.format(member))
 
 
-@bot.group()
+@ bot.group()
 async def cool(ctx):
     """Says if a user is cool.
     In reality this just checks if a subcommand is being invoked.
@@ -87,7 +86,7 @@ async def cool(ctx):
         await ctx.send('No, {0.subcommand_passed} is not cool'.format(ctx))
 
 
-@cool.command(name='bot')
+@ cool.command(name='bot')
 async def _bot(ctx):
     """Is the bot cool?"""
     await ctx.send('Yes, the bot is cool.')
