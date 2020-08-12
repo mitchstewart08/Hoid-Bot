@@ -31,18 +31,37 @@ async def add(ctx, left: int, right: int):
 
 
 @bot.command()
-async def covid(ctx):
-    async with aiohttp.ClientSession() as session:
-        async with session.get('http://covidtracking.com/api/us') as r:
-            if r.status == 200:
-                results = await r.json()
-                desc = "**Positive Cases**:" + str(results[0]["positive"]) + '\n' + "**Negative Cases**:" + str(results[0]["negative"]) + '\n' + "**Pending Cases**:" + str(results[0]["pending"]) + '\n\n' + "**Hospitalized Currently Cases**:" + str(
-                    results[0]["hospitalizedCurrently"]) + '\n' + "**Hospitalized Cases Cumlative**:" + str(results[0]["hospitalizedCumulative"]) + '\n' + "**ICU Currently **:" + str(results[0]["inIcuCurrently"]) + '\n' + "**ICU Cumulative Total**:" + str(results[0]["inIcuCumulative"]) + '\n'
-                embed = discord.Embed(title="Covid stats for America" or None,
-                                      description=desc or None)
-                await ctx.send(embed=embed)
-            else:
-                await message.channel.send("Error")
+async def test(ctx, *args):
+    print(len(args))
+
+
+@bot.command()
+async def covid(ctx, *args):
+    if args:
+        async with aiohttp.ClientSession() as session:
+            state = args[0]
+            async with session.get(f'https://api.covidtracking.com/v1/states/{state}/current.json') as r:
+                if r.status == 200:
+                    results = await r.json()
+                    desc = "**Positive Cases**:" + str(results["positive"]) + '\n' + "**Negative Cases**:" + str(results["negative"]) + '\n' + "**Pending Cases**:" + str(results["pending"]) + '\n\n' + "**Hospitalized Currently Cases**:" + str(
+                        results["hospitalizedCurrently"]) + '\n' + "**Hospitalized Cases Cumlative**:" + str(results["hospitalizedCumulative"]) + '\n' + "**ICU Currently **:" + str(results["inIcuCurrently"]) + '\n' + "**ICU Cumulative Total**:" + str(results["inIcuCumulative"]) + '\n'
+                    embed = discord.Embed(
+                        title=f"Covid stats for {state}" or None, description=desc or None)
+                    await ctx.send(embed=embed)
+                else:
+                    await message.channel.send("Error")
+    else:
+        async with aiohttp.ClientSession() as session:
+            async with session.get('https://api.covidtracking.com/v1/us/current.json') as r:
+                if r.status == 200:
+                    results = await r.json()
+                    desc = "**Positive Cases**:" + str(results[0]["positive"]) + '\n' + "**Negative Cases**:" + str(results[0]["negative"]) + '\n' + "**Pending Cases**:" + str(results[0]["pending"]) + '\n\n' + "**Hospitalized Currently Cases**:" + str(
+                        results[0]["hospitalizedCurrently"]) + '\n' + "**Hospitalized Cases Cumlative**:" + str(results[0]["hospitalizedCumulative"]) + '\n' + "**ICU Currently **:" + str(results[0]["inIcuCurrently"]) + '\n' + "**ICU Cumulative Total**:" + str(results[0]["inIcuCumulative"]) + '\n'
+                    embed = discord.Embed(title="Covid stats for America" or None,
+                                          description=desc or None)
+                    await ctx.send(embed=embed)
+                else:
+                    await message.channel.send("Error")
 
 
 @ bot.command()
