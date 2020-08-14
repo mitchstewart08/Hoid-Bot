@@ -4,7 +4,6 @@ from discord.ext import commands
 import os
 import aiohttp
 import asyncio
-from dotenv import load_dotenv
 
 
 load_dotenv()
