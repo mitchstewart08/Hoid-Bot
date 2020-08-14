@@ -1,4 +1,5 @@
 import discord
+import sys
 from discord.ext import commands
 import os
 import aiohttp
@@ -22,6 +23,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+    sys.stdout.flush()
 
 
 @bot.command()
@@ -111,3 +113,4 @@ async def _bot(ctx):
     await ctx.send('Yes, the bot is cool.')
 
 bot.run(TOKEN)
+sys.stdout.flush()
