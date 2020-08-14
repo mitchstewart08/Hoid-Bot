@@ -6,7 +6,6 @@ import aiohttp
 import asyncio
 
 
-load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 
