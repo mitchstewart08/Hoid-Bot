@@ -6,8 +6,11 @@ import aiohttp
 import asyncio
 
 
-TOKEN = os.getenv('DISCORD_TOKEN')
+if os.environ["USER"] == "mitch":
+    from dotenv import load_dotenv
+    load_dotenv()
 
+TOKEN = os.getenv('DISCORD_TOKEN')
 
 description = '''An example bot to showcase the discord.ext.commands extension
 module.
@@ -37,7 +40,11 @@ async def test(ctx, *args):
 
 @bot.command()
 async def covid(ctx, *args):
-    if args:
+    if args and "county" in args:
+        county = args[1]
+        print(county)
+
+    elif args:
         async with aiohttp.ClientSession() as session:
             state = args[0]
             async with session.get(f'https://api.covidtracking.com/v1/states/{state}/current.json') as r:
